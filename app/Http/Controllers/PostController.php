@@ -9,6 +9,7 @@ use App\Models\Category;
 use Cloudinary;  
 use App\Models\Comment;
 use App\Models\Place;
+use App\Models\Image;
 
 class PostController extends Controller
 {
@@ -32,19 +33,34 @@ class PostController extends Controller
         return view('posts/show')->with(['post' => $post, 'comments' => $comment->get()]);
     }
 
-    public function create(Category $category)
+    public function create(Place $place)
     {
-        return view('posts/create')->with(['categories' => $category->get()]);
+        return view('posts/create')->with(['places' => $place->get()]);
     }
 
-    public function store(Post $post, Request $request)
+    public function store(Post $post, Request $request, Image $image)
     {
+        
         //cloudinaryへ画像を送信し、画像のURLを$image_urlに代入している
-        $image_url = Cloudinary::upload($request->file('image')->getRealPath())->getSecurePath();
-        dd($image_url);  //画像のURLを画面に表示
+         //画像のURLを画面に表示
         
         $input = $request['post'];
         $post->fill($input)->save();
+        
+        $tmps=$request->files;
+        foreach($tmps as $tmp){
+            foreach($tmp as $img){
+                $post_image=new Image();
+                $image_url = Cloudinary::upload($img->getRealPath())->getSecurePath();
+                $post_image->post_id=$post->id;
+                $post_image->image=$image_url;
+                $post_image->save();
+                // $images = ["image" => $image_url];
+                // $images += ["post_id" => $post->id];
+                // $image->fill($images)->save();
+            }
+        }
+
         return redirect('/posts/' . $post->id);
         
     }
