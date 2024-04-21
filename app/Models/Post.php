@@ -19,7 +19,7 @@ class Post extends Model
         'updated_at',
         'deleted_at',
         'place_id',
-        'prefectur_id',
+        'prefecture_id',
         'address',
     ];
 
@@ -32,5 +32,21 @@ class Post extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+    public function prefecture()
+    {
+        return $this->belongsTo(Prefecture::class);
+    }
+    public function place()
+    {
+        return $this->belongsTo(Place::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function images()   
+    {
+        return $this->hasMany(Image::class);  
     }
 }
