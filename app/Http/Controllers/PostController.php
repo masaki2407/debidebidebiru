@@ -13,10 +13,20 @@ use App\Models\Image;
 
 class PostController extends Controller
 {
-    public function index(Post $post)
+    public function index(Post $post, Place $place)
     {
-        return view('posts.index')->with(['posts' => $post->getPaginateByLimit()]);
+        $place_search = $request['place'];
+
+        $query = Post::query();
+
+        if($place_search != null) {
+            $query->where('place_id', 'LIKE', "{$place_search}");
+        }
+
+        $posts = $query->get();
+        return view('posts.index')->with(['posts' => $posts, 'places'=>$place->get()]);
     }
+    
 
     public function show(Post $post, Comment $comment)
     {
