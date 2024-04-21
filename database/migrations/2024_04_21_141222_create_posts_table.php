@@ -15,14 +15,14 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             
-            
             $table->id();
+            $table->foreignId('user_id')->constrained();
             $table->string('market_name');
             $table->string('access');
             $table->string('opening_hours');
             $table->string('body');
-            $table->foreignId('place_id')->constrained();
-            $table->foreignId('prefectur_id')->constrained();
+            $table->foreignId('place_id')->constrained('places');
+            $table->foreignId('prefecture_id')->constrained('prefectures');
             $table->string('address');
             $table->timestamps();
             $table->softDeletes();
