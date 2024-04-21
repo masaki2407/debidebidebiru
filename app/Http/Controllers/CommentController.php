@@ -5,24 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Comment;
 use App\Models\Post;
+use Auth;
 
 class CommentController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request, Post $post, Comment $comment)
     {
-        //バリデーションを行う
-        $request->validate([
-            'post_id' => 'required|exists:posts,id',
-            'content' => 'requird|string'
-            ]);
-            
+        
         Comment::create([
-            'post_id' => $reqest->post_id,
-            'user_id' => $auth()->user()->id,
-            'content' => $request->content,
+            'post_id' => $request->post_id,
+            'user_id' => Auth::id(),
+            'comment' => $request->comment,
             ]);
             
-        return back()->with('success', 'コメント投稿完了');
+        return back()->with(['post' => $post, 'comments' => $comment->get()]);
     }
     
     public function destroy(Comment $comment)

@@ -32,8 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
-    //Route::get()
-    //Rolut::get('/posts/index', [PostController::class, 'index'])->name('post.index')
+    
+    Route::get('/posts/index', [PostController::class, 'index'])->name('post.index');
     
     //投稿フォームの表示
     Route::get('/posts/create', [PostController::class, 'create'])->name('post.create'); 
@@ -42,6 +42,7 @@ Route::middleware('auth')->group(function () {
     //投稿詳細画面の表示
     Route::get('/posts/{post}', [PostController::class, 'show'])->name('post.show'); 
     
+    Route::post('/posts/comment', [CommentController::class, 'store'])->name('comment.store');
     
 });
 
