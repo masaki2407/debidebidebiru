@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('opening_hours');
             $table->string('body');
             $table->foreignId('place_id')->constrained();
-            $table->foreignId('prefectur_id')->constrained();
+            $table->foreignId('prefecture_id')->constrained();
             $table->string('address');
             $table->timestamps();
             $table->softDeletes();
