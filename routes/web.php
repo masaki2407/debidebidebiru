@@ -33,6 +33,7 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     
     
+    
     Route::get('/posts/index', [PostController::class, 'index'])->name('post.index');
     
     //投稿フォームの表示
